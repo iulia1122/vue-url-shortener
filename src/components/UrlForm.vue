@@ -3,6 +3,8 @@
     <input type="text" :class="borderStyles" class="input" placeholder="Enter url here.." v-model="url" />
     <span class="info" :class="textStyles">{{ validationError }}</span>
     <button v-on:click="getShortUrl">Shorten URL</button>
+
+    <a class="new-link" :href="shortUrl">{{shortUrl}}</a>
 </div>
 </template>
 
@@ -27,6 +29,8 @@ export default {
 
     methods: {
         async getShortUrl() {
+
+            this.shortUrl =''
 
             if (!this.url) {
                 return this.validationError = 'Please provide a link'
@@ -142,10 +146,19 @@ button {
 }
 
 button:hover {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .info {
     display: block;
+}
+
+.new-link {
+    color: #28a745;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 22px;
+    font-weight: bold;
+    display:block;
 }
 </style>
