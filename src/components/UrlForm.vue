@@ -7,8 +7,10 @@
 </template>
 
 <script>
-
 import axios from 'axios'
+import {
+    mapMutations
+} from 'vuex'
 import SimpleVueValidation from 'simple-vue-validator';
 let Validator = SimpleVueValidation.Validator;
 
@@ -40,11 +42,14 @@ export default {
                 this.validationError = ''
             }
 
-            let response = await axios.post('http://localhost:4000', {
+            let response = await axios.post('http://localhost:3000/url/shorten', {
                 url: this.url
             })
-            
-            this.shortUrl = response.data.short_url
+
+            this.shortUrl = response.data.shortUrl
+
+            this.updateUrlList(response.data)
+
         },
 
         // append http:// if the url doesn't have a protocol
@@ -52,10 +57,13 @@ export default {
             let protocols = ['http://', 'https://']
             return protocols.some(protocol => url.includes(protocol)) ? url : `http://${url}`
         },
+
+        ...mapMutations({
+            updateUrlList: 'urls/updateUrlList' // map `this.add()` to `this.$store.dispatch('increment')`
+        })
     }
 }
 </script>
-
 
 <style scoped>
 .input {

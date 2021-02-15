@@ -7,21 +7,29 @@
 
 <script>
 import axios from 'axios'
+import {
+    mapMutations,
+    mapGetters
+} from 'vuex'
 
 export default {
     name: 'UrlList',
 
-    data() {
-        return {
-            urls: []
-        }
-    },
-
     async mounted() {
         let result = await axios.get('http://localhost:3000/url/all')
+        this.setUrlList(result.data)
+    },
 
-        this.urls = result.data;
-        console.log(result)
+    methods: {
+        ...mapMutations({
+            setUrlList: 'urls/setUrlList'
+        })
+    },
+
+    computed: {
+        ...mapGetters({
+            urls: 'urls/getUrlList'
+        })
     }
 }
 </script>
