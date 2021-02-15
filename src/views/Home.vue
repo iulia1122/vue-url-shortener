@@ -32,7 +32,7 @@ export default {
 
 .title {
     color: #2b3c4d;
-    line-height: 1.25;
+    margin-top: 40px;
 }
 
 .form {
@@ -46,11 +46,5 @@ export default {
 
 .form-container {
     margin-bottom: 11px;
-}
-
-@media (min-width: 576px) {
-    .container {
-        padding: 33px;
-    }
 }
 </style>
