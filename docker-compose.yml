@@ -1,0 +1,15 @@
+version: "2"
+services:
+  vue:
+    user: "node"
+    working_dir: /home/node/vue
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/vue
+    ports:
+      - "8080:8080"
+    command: "npm run serve"
