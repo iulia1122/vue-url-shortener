@@ -1,10 +1,13 @@
 <template>
 <div class="container">
-  <div class="form-container">
-    <UrlForm class="form" />
-  </div>
-    <UrlList class="list" />
 
+    <h1 class="title"> Url shortener app </h1>
+
+    <div class="form-container">
+        <UrlForm class="form" />
+    </div>
+
+    <UrlList class="list" />
 </div>
 </template>
 
@@ -23,24 +26,31 @@ export default {
 
 <style scoped>
 .container {
-    display: flex;
+    display: block;
+    width: 100%;
 }
 
-.form-container {
-  width: 70%;
-  margin: 11px 0;
+.title {
+    color: #2b3c4d;
+    line-height: 1.25;
 }
 
 .form {
     background: #fff;
-    width: 285px;
+    max-width: 285px;
     padding: 40px;
     border: 1px solid #ccc;
     border-radius: 6px;
     margin: 0 auto;
 }
 
-.list {
-    width: 30%;
+.form-container {
+    margin-bottom: 11px;
+}
+
+@media (min-width: 576px) {
+    .container {
+        padding: 33px;
+    }
 }
 </style>

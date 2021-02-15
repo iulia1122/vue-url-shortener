@@ -1,8 +1,8 @@
 <template>
 <div class="form">
-    <input type="text" class="input" placeholder="Enter url here.." v-model="url" />
+    <input type="text" :class="borderStyles" class="input" placeholder="Enter url here.." v-model="url" />
+    <span class="info" :class="textStyles">{{ validationError }}</span>
     <button v-on:click="getShortUrl">Shorten URL</button>
-    {{ validationError }}
 </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
             let validationResult = Validator.value(urlToValidate).url()
 
             if (validationResult._messages.length > 0) {
-                return this.validationError = 'That doesn\'t look like a valid url.'
+                return this.validationError = 'Please type a valid url'
             } else {
                 this.validationError = ''
             }
@@ -45,6 +45,8 @@ export default {
             let response = await axios.post('http://localhost:3000/url/shorten', {
                 url: this.url
             })
+
+            this.resetErrors()
 
             this.shortUrl = response.data.shortUrl
 
@@ -60,7 +62,33 @@ export default {
 
         ...mapMutations({
             updateUrlList: 'urls/updateUrlList' // map `this.add()` to `this.$store.dispatch('increment')`
-        })
+        }),
+
+        resetErrors() {
+            this.validationError = ''
+        }
+    },
+
+    computed: {
+        hasErrors() {
+            return this.validationError ? true : false
+        },
+
+        borderStyles() {
+            if (this.validationError) {
+                return 'input-warning'
+            }
+
+            return ''
+        },
+
+        textStyles() {
+            if (this.validationError) {
+                return 'text-warning'
+            }
+
+            return ''
+        }
     }
 }
 </script>
@@ -74,20 +102,50 @@ export default {
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    color: #ccc;
-    font-family: "Roboto";
+    color: #516375;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .input:focus {
-    color: #333;
     border: 1px solid #44c4e7;
 }
 
-label {
-    font-weight: bold;
-    text-align: left;
-    text-transform: uppercase;
+.input-warning {
+    border: 1px solid #dc3545;
+}
+
+.text-warning {
+    color: #dc3545
+}
+
+.success {
+    border: 1px solid #28a745;
+}
+
+button {
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+
+}
+
+button:hover {
+    cursor:pointer;
+}
+
+.info {
+    display: block;
 }
 </style>
